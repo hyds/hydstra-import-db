@@ -1,0 +1,46 @@
+{
+  "name": "hydstra-meta-schemafier",
+  "version": "1.0.0",
+  "description": "Service to turn data model into json and map to a consistend schema",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "test": "node ./tests",
+    "start": "./start",
+    "create": "node ./create"
+  },
+  "author": "Sholto Maud <Sholto.maud@gmail.com>",
+  "bugs": {
+    "url": ""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^2.1.0",
+    "grape": "^1.0.1",
+    "mocha": "^2.1.0",
+    "mockery": "^1.4.0"
+  },
+  "dependencies": {
+    "bunyan": "^1.3.5",
+    "hds-tools": "^1.0.12",
+    "leveldown": "^1.2.2",
+    "levelup": "^1.2.0",
+    "moment": "^2.10.3",
+    "request": "^2.53.0",
+    "split": "^0.3.3",
+    "split2": "^0.2.1",
+    "stream": "0.0.2",
+    "through": "^2.3.6",
+    "through2": "^0.6.3",
+    "through3": "^1.1.5"
+  },
+  "keywords": [
+    "hydstra"
+  ]
+}

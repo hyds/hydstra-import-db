@@ -1,0 +1,7 @@
+{
+    "port": 27017,
+    "serverName": "hds-import-hydstra",
+    "logLevel": "debug",
+    "logFileName": "hds-imort-hydstra.log",
+    "mongooseConnection": "mongodb://localhost:27017/h2node"
+}

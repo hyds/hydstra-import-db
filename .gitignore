@@ -1,0 +1,11 @@
+node_modules
+coverage
+*.log
+.jshintignore
+.jshintrc
+mastdict
+db
+data
+tableSchemas
+tools
+

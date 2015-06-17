@@ -1,0 +1,9 @@
+{
+	"function":"get_db_info",
+	"version":"3",
+	"params":{
+		"return_type":"hash",
+		"table_name":"",
+		"sitelist_filter":""			
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"function":"get_db_info",
+	"version":"3",
+	"params":{
+		"return_type":"hash",
+		"complex_filter":[],
+		"table_name":""
+	}
+
+}
