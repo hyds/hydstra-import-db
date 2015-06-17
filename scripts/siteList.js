@@ -37,9 +37,9 @@ module.exports = function (){
 				//console.log('params', query.params);
 				console.log('sitelist_filter: ', matchParams[h])
 				queries.push(urlQuery);
-
+				
 			    console.log('console loop: [',queries.length-1,'] ',queries[queries.length-1]);
-			    console.log('console loop: [',queries.length-2,'] ',queries[queries.length-2]);
+			    console.log('console loop: [',queries.length-3,'] ',queries[queries.length-3]);
 				// for (var x = 0; x < queries.length; x++){
 			 //    }
 
