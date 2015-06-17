@@ -22,115 +22,131 @@ dbOptions['db'] = db;
     
 //custom modules
 var hydstraTools = require('./scripts');
-var siteList = hydstraTools.siteList();
+var URLList = hydstraTools.siteList();
 var config = require('./config');
 
-var webservices = config.services;
+//var webservices = config.services;
 //var query = require('./queries').getTable;
 
 var agencyNo = 0;
 var URIoptions = {'pool': {'maxSockets': Infinity},'keepAlive':false};
 
-var fs = require('fs');
-
-// for (var i = 0; i < webservices.length ; i++) {
-//   var webservice = webservices[i];
-//   webservice['query'] = query;
-//   log.info('orgcode: ', webservice.orgcode);
+// for (var i = 0; i < URLList.length ; i++) {
+//   //var webservice = webservices[i];
+//   //webservice['query'] = query;
+//   log.info('orgcode: ', URLList[i].orgcode);
 //   //var months = monthIncrement;
-//   var c = 0;
-//   loopTables(webservice, c);  
+//   //var c = 0;
+//   requestTable(URLList[i],function(data){
+//     log.info(data);
+//   });  
 // };
 
-//log.info('params',params);
-for (var i = siteList.length - 1; i >= 0; i--) {
-    //var sL = siteList[i]
-    //console.log(sL.query.params);
-};
+var URInumber = 0;
 
-// fs.writeFile('dat.json', JSON.stringify(siteList), function (err) {
-//   if (err) throw err;
-//   console.log('It\'s saved!');
+// loopURI(URLList[i], URInumber, param, table, function(){
+
 // });
+
+loopServices(URLList[URInumber]);
+
+function loopServices( url ){
+    requestTable( url , function(){
+        if ( URInumber < URLList.length ){
+            URInumber++;
+            var url = URLList[URInumber];
+            loopServices( url );
+        }
+    });
+}
+
+
+//         if( y < filterParams.length ) {
+//             y++;
+//             loopFilters ( webservice, y, table, cb );
+//             //info.log('calling table: '+table+', param: ', param);
+//         };
+//     });
+
 
 
 //loopServices (webservices, agencyNo);
 
-function loopServices (webservices, agencyNo){
-  var c = 0;
-  var webservice = webservices[agencyNo];
-  webservice['query'] = query;
+// function loopServices (webservices, agencyNo){
+//   var c = 0;
+//   var webservice = webservices[agencyNo];
+//   webservice['query'] = query;
   
 
 
-  log.info('calling services: ', webservice.orgcode);
-  loopTables(webservice, c, function(){
-    if ( agencyNo < webservices.length ){
-        agencyNo++;
-        loopServices( webservices, agencyNo);
-    }
-  });
-}
+//   log.info('calling services: ', webservice.orgcode);
+//   loopTables(webservice, c, function(){
+//     if ( agencyNo < webservices.length ){
+//         agencyNo++;
+//         loopServices( webservices, agencyNo);
+//     }
+//   });
+// }
 
-function loopTables ( webservice, i, cb ){
-    var tbles = webservice.tables;
-    var y = 0;
-    //var mDate = moment().format('YYYY');
-    //for (var i = 0; i < tbles.length ; i++) {
+// function loopTables ( webservice, i, cb ){
+//     var tbles = webservice.tables;
+//     var y = 0;
+//     //var mDate = moment().format('YYYY');
+//     //for (var i = 0; i < tbles.length ; i++) {
     
-    var table = tbles[i];
-    log.info('calling table: ', table)        
+//     var table = tbles[i];
+//     log.info('calling table: ', table)        
     
-    loopFilters(webservice, y, table, function(){
-        if (i < tbles.length){
-            i++;    
-            loopTables(webservice, i, cb);
-        }    
-    });
-    //}
+//     loopFilters(webservice, y, table, function(){
+//         if (i < tbles.length){
+//             i++;    
+//             loopTables(webservice, i, cb);
+//         }    
+//     });
+//     //}
 
-    // loopFilters(webservice, months, tble, function(){
-    //   y++;
-    //   months = months + monthIncrement;
-    //   if( typeof tbles !== 'string' && y < tbles.length ) { loopTables(webservice, months)}
-    // });
-}
+//     // loopFilters(webservice, months, tble, function(){
+//     //   y++;
+//     //   months = months + monthIncrement;
+//     //   if( typeof tbles !== 'string' && y < tbles.length ) { loopTables(webservice, months)}
+//     // });
+// }
 
 
-function loopFilters ( webservice, y, table, cb){
-    param = filterParams[y];
-    //var query = webservice.query;
-    //query.params.table_name = table; 
-    //query.params.sitelist_filter = 'match('+param+'*)'; 
-    //webservice['query'] = query;
-    //log.info('query: ', query)
-    //requestTable(webservice, table, function(){
-    var x = 0;
-    loopSubFilters(webservice, x, param, table, function(){
-        if( y < filterParams.length ) {
-            y++;
-            loopFilters ( webservice, y, table, cb );
-            //info.log('calling table: '+table+', param: ', param);
-        };
-    });
-}
+// function loopFilters ( webservice, y, table, cb){
+//     param = filterParams[y];
+//     //var query = webservice.query;
+//     //query.params.table_name = table; 
+//     //query.params.sitelist_filter = 'match('+param+'*)'; 
+//     //webservice['query'] = query;
+//     //log.info('query: ', query)
+//     //requestTable(webservice, table, function(){
+//     var x = 0;
+//     loopSubFilters(webservice, x, param, table, function(){
+//         if( y < filterParams.length ) {
+//             y++;
+//             loopFilters ( webservice, y, table, cb );
+//             //info.log('calling table: '+table+', param: ', param);
+//         };
+//     });
+// }
 
-function loopSubFilters ( webservice, x, param, table, cb){
-    var query = webservice.query;
-    query.params.table_name = table;
-    var subParam = filterParams[x];
-    var fullParam = param + subParam;
-    query.params.sitelist_filter = 'match('+fullParam+'*)'; 
-    webservice['query'] = query;
-    //log.info('x: ',x,', query: ', query)
-    requestTable(webservice, table, function(){
-        if( x <= 9 ) {
-            x++;
-            loopSubFilters ( webservice, x, param, table, cb );
-            //info.log('calling table: '+table+', param: ', param);
-        };
-    });
-}
+// function loopSubFilters ( webservice, x, param, table, cb){
+//     var query = webservice.query;
+//     query.params.table_name = table;
+//     var subParam = filterParams[x];
+//     var fullParam = param + subParam;
+//     query.params.sitelist_filter = 'match('+fullParam+'*)'; 
+//     webservice['query'] = query;
+//     //log.info('x: ',x,', query: ', query)
+//     requestTable(webservice, table, function(){
+//         if( x <= 9 ) {
+//             x++;
+//             loopSubFilters ( webservice, x, param, table, cb );
+//             //info.log('calling table: '+table+', param: ', param);
+//         };
+//     });
+// }
 
 
     // var mDate = moment().format('YYYY');
@@ -185,26 +201,28 @@ function loopSubFilters ( webservice, x, param, table, cb){
 //     });
 // }
 
-function requestTable (webservice,table, callback){
-    var query = JSON.stringify(webservice.query);
-    var options = webservice.options;
-    var orgcode = webservice.orgcode;
-    var schemaId = webservice.schemaId;
+function requestTable (urlitem,callback){
+    var query = JSON.stringify(urlitem.query);
+    var options = urlitem.options;
+    var orgcode = urlitem.orgcode;
+    //var schemaId = webservice.schemaId;
+    var table = 'this';
     var devFile =  __dirname + '/data/'+orgcode+'_'+table+'.json';
 
-    var uriUnparsed = 'http://' + options.host + options.path + query;
+    var uriUnparsed = 'http://' + urlitem.host + urlitem.path + query;
     
     //var uriUnparsed = 'http://' + webservice.host + webservice.path + JSON.stringify(webservice.query);
     dbOptions['table'] = table;
-
-    if (webservice.decode){
+    var test = 1;
+    //if (webservice.decode){
+    if ( test ){
         uri = url.parse(uriUnparsed)
         uri.path = decodeURIComponent(uri.path);
         
         URIoptions['uri'] = uri;
     }
     else{
-        URIoptions = 'http://' + options.host + options.path + query;
+        URIoptions = 'http://' + urlitem.host + urlitem.path + query;
     }
     
     reqDomain.on('error', function(err) {
@@ -228,14 +246,11 @@ function requestTable (webservice,table, callback){
         .pipe(fs.createWriteStream(devFile))
         //.resume()
         .on('close',function(){
-          log.info('close [',orgcode,'], schemaID: ',schemaId);
+          log.info('close [',orgcode,']');
            // setTimeout( function(){
               callback();
               //rr.removeAllListeners();
            // },1000);
-        })
-        .unpipe()
-        
-        
+        })        
     })
 }
